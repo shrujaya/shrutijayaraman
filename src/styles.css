@@ -408,6 +408,11 @@ main section {
   font-family: var(--serif); font-size: 17px; line-height: 1.5;
   color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;
 }
+.now-text a {
+  border-bottom: 1px solid rgba(var(--line-rgb),0.4);
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.now-text a:hover { border-bottom-color: var(--ink); }
 
 /* ── experience ────────────────────────────────────────────── */
 /* Baseline alignment so the dates, the org name and the first position all sit
@@ -453,6 +458,14 @@ main section {
   color: var(--accent);
 }
 .position-at { font-weight: 400; color: rgba(var(--ink-rgb),0.74); }
+/* Keep the lab link in the muted qualifier colour so the job title stays the
+   emphasis; the underline is what marks it as a link. */
+.position-at a {
+  color: inherit;
+  border-bottom: 1px solid rgba(var(--line-rgb),0.4);
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.position-at a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .position-dates {
   margin-top: 5px;
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
@@ -484,7 +497,9 @@ main section {
   text-transform: uppercase; color: rgba(var(--ink-rgb),0.6);
   text-align: right; white-space: nowrap;
 }
-.edu-gpa {
+/* Small bracketed annotation beside a heading: the GPA on a degree, the
+   programme behind a role. */
+.edu-gpa, .role-note {
   font-family: var(--mono); font-weight: 400; font-size: 10px;
   letter-spacing: 0.08em; white-space: nowrap; color: var(--accent);
 }
@@ -523,26 +538,15 @@ main section {
   color: rgba(var(--ink-rgb),0.72); text-wrap: pretty;
 }
 
-/* ── writing ───────────────────────────────────────────────── */
-.post-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 0; }
-.post {
-  display: grid; grid-template-columns: 108px 1fr 92px; gap: 22px; align-items: baseline;
-  padding: 16px 18px; background: var(--glass-b); border-radius: 16px;
-  text-decoration: none; color: inherit;
+/* ── writing (nothing published yet) ──────────────────────────── */
+.empty-state {
+  margin: 0; text-align: center;
+  font-family: var(--serif); font-style: italic;
+  font-size: 17px; color: rgba(var(--ink-rgb),0.72);
 }
-.post:hover { color: inherit; }
-.post-date {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(var(--ink-rgb),0.6);
-}
-.post h3 {
-  margin: 0; font-family: var(--serif); font-weight: 400;
-  font-size: 21px; letter-spacing: -0.02em; line-height: 1.25;
-}
-.post .pill { background: var(--glass-a); }
-.post-read {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--accent); text-align: right;
+.empty-state-icon {
+  margin-right: 8px; font-size: 13px; letter-spacing: 0.3em;
+  font-style: normal; color: rgba(var(--ink-rgb),0.35);
 }
 
 /* ── footer ────────────────────────────────────────────────── */

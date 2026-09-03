@@ -17,8 +17,7 @@ export const profile = {
   links: {
     github: 'https://github.com/shrujaya',
     linkedin: 'https://linkedin.com/in/shrutijayaraman',
-    substack: 'https://shrutijayaraman.substack.com',
-    publications: 'https://shrujaya.github.io',
+    medium: 'https://medium.com/@sjayaraman2307',
   },
 };
 
@@ -35,12 +34,22 @@ export const skillGroups = [
   { name: 'Infra & tooling', items: ['git', 'fastapi', 'langchain', 'streamlit', 'boto3 (aws)', 'linux'] },
 ];
 
+// An item is either a plain string, or an array of parts where an object
+// becomes a link: { text, href }.
 export const now = {
-  updated: 'last updated · august 2026',
+  updated: 'last updated · september 2026',
   items: [
     'Spent the summer upskilling',
-    'Building my schedule for Fall 2026',
-    'Prioritizing health and wellbeing',
+    'Taking Advanced Compilers and Reinforcement Learning this Fall',
+    [
+      'Starting an apprenticeship with ',
+      { text: 'GigXR', href: 'https://www.gigxr.com/' },
+      ' through the ',
+      {
+        text: 'Perot Jain TechLab',
+        href: 'https://cfe.umich.edu/launch/perot-jain-techlab-series/perot-jain-techlab-healthtech/',
+      },
+    ],
   ],
 };
 
@@ -55,12 +64,14 @@ export const roles = [
       {
         title: 'Student Researcher',
         at: 'Blablablab',
+        atHref: 'https://blablablab.si.umich.edu/',
         dates: 'Jun 2026 — Now',
         tags: ['llm bias', 'evals', 'annotation'],
       },
       {
         title: 'Student Researcher',
         at: 'LIT Lab',
+        atHref: 'https://lit.eecs.umich.edu/',
         dates: 'Oct 2025 — Now',
         tags: ['agents', 'rag', 'clinical nlp'],
       },
@@ -87,7 +98,15 @@ export const education = [
     location: 'Ann Arbor, MI',
     gpa: '3.7',
     gpaScale: '4.0',
-    courses: ['nlp', 'randomness & computation', 'scalable agentic systems', 'computer vision', 'open source innovation'],
+    courses: [
+      'nlp',
+      'randomness & computation',
+      'scalable agentic systems',
+      'computer vision',
+      'open source innovation',
+      'compilers',
+      'reinforcement learning',
+    ],
   },
   {
     dates: 'Jul 2019 — Apr 2023',
@@ -106,7 +125,7 @@ export const projects = [
     year: '2025',
     title: 'Git-Hired',
     blurb: 'An AI interview platform with a video avatar that asks the questions, adapts difficulty as you answer, and writes the hiring report.',
-    tags: ['fastapi', 'react', 'multi-agent', 'tavus'],
+    tags: ['fastapi', 'react', 'typescript', 'websockets', 'multi-agent'],
     url: 'https://github.com/shrujaya/git-hired',
   },
   {
@@ -127,31 +146,11 @@ export const projects = [
   },
 ];
 
-// Pulled from the Substack archive API. `read` is wordcount at 225 wpm,
-// rounded up — Substack does not publish a reading time of its own.
-export const posts = [
-  {
-    date: 'May 2026',
-    title: 'Change of plans I guess..',
-    tags: [],
-    read: '3 min',
-    url: 'https://shrutijayaraman.substack.com/p/change-of-plans-i-guess',
-  },
-  {
-    date: 'Apr 2026',
-    title: 'How I clutched a summer internship',
-    tags: [],
-    read: '6 min',
-    url: 'https://shrutijayaraman.substack.com/p/how-i-clutched-a-summer-internship',
-  },
-  {
-    date: 'Mar 2026',
-    title: "Lessons from Fall '25",
-    tags: [],
-    read: '8 min',
-    url: 'https://shrutijayaraman.substack.com/p/lessons-from-fall-25',
-  },
-];
+// Shown in the writing panel while there's nothing to link to yet.
+// Once there are posts to show (on Medium or wherever), replace this with
+// a `posts` array of { date, title, tags, read, url } and swap the empty
+// state in App.jsx back for the list it replaced.
+export const writingNote = 'New articles are brewing, check back soon.';
 
 export const nav = [
   { id: 'home', label: 'about' },

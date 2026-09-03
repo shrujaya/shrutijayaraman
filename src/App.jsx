@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import {
-  profile, facts, skillGroups, now, roles, education, projects, posts, nav,
+  profile, facts, skillGroups, now, roles, education, projects, writingNote, nav,
 } from './content';
 import {
   useTilt, useCursorGlow, useReveal, useScrollSpy, useGlitchLabel,
@@ -72,6 +72,17 @@ function GithubMark() {
       />
     </svg>
   );
+}
+
+// A now entry is a plain string, or parts where an object becomes a link.
+function NowItem({ item }) {
+  if (typeof item === 'string') return item;
+  return item.map((part, i) => (
+    typeof part === 'string' ? part : (
+      // eslint-disable-next-line react/no-array-index-key
+      <a key={i} href={part.href} target="_blank" rel="noreferrer">{part.text}</a>
+    )
+  ));
 }
 
 function Tags({ items }) {
@@ -163,8 +174,7 @@ export default function App() {
                 <a className="btn btn-solid" href={`mailto:${profile.email}`}>email</a>
                 <a className="btn btn-ghost" href={profile.links.github} target="_blank" rel="noreferrer">github</a>
                 <a className="btn btn-ghost" href={profile.links.linkedin} target="_blank" rel="noreferrer">linkedin</a>
-                <a className="btn btn-ghost" href={profile.links.substack} target="_blank" rel="noreferrer">substack</a>
-                <a className="btn btn-ghost" href={profile.links.publications} target="_blank" rel="noreferrer">publications</a>
+                <a className="btn btn-ghost" href={profile.links.medium} target="_blank" rel="noreferrer">medium</a>
               </div>
             </div>
             <div>
@@ -229,9 +239,9 @@ export default function App() {
           />
           <ul className="now-list">
             {now.items.map((item) => (
-              <li className="now-item tilt" key={item}>
+              <li className="now-item tilt" key={typeof item === 'string' ? item : item[0]}>
                 <span className="now-arrow">→</span>
-                <span className="now-text">{item}</span>
+                <span className="now-text"><NowItem item={item} /></span>
               </li>
             ))}
           </ul>
@@ -247,7 +257,10 @@ export default function App() {
               <div className="role tilt glass" key={role.org}>
                 <div className="role-dates">{role.dates}</div>
                 <div>
-                  <h3>{role.org}</h3>
+                  <h3>
+                    {role.org}
+                    {role.note ? <span className="role-note"> ({role.note})</span> : null}
+                  </h3>
                   <div className="role-loc">{role.location}</div>
                 </div>
                 <div className={role.positions.length > 1 ? 'timeline' : undefined}>
@@ -255,10 +268,17 @@ export default function App() {
                     <div className="position" key={post.at || post.title}>
                       <div className="position-title">
                         {post.title}
-                        {post.at ? <span className="position-at">, {post.at}</span> : null}
+                        {post.at ? (
+                          <span className="position-at">
+                            {', '}
+                            {post.atHref
+                              ? <a href={post.atHref} target="_blank" rel="noreferrer">{post.at}</a>
+                              : post.at}
+                          </span>
+                        ) : null}
                       </div>
                       {post.dates ? <div className="position-dates">{post.dates}</div> : null}
-                      <Tags items={post.tags} />
+                      {post.tags.length ? <Tags items={post.tags} /> : null}
                     </div>
                   ))}
                 </div>
@@ -317,25 +337,10 @@ export default function App() {
 
         {/* ── writing ───────────────────────────────────────── */}
         <section id="blog">
-          <SectionHead num="05" kicker="writing" title="From my" accent="newsletter" />
-          <div className="post-list">
-            {posts.map((post) => (
-              <a
-                className="post tilt glass"
-                key={post.title}
-                href={post.url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <div className="post-date">{post.date}</div>
-                <div>
-                  <h3>{post.title}</h3>
-                  {post.tags.length ? <Tags items={post.tags} /> : null}
-                </div>
-                <div className="post-read">{post.read} ↗</div>
-              </a>
-            ))}
-          </div>
+          <p className="empty-state">
+            <span className="empty-state-icon" aria-hidden="true">✳</span>
+            {writingNote}
+          </p>
         </section>
       </main>
 
