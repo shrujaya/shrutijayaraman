@@ -28,10 +28,10 @@ export const facts = [
 ];
 
 export const skillGroups = [
-  { name: 'Languages', items: ['python', 'java', 'c++', 'c', 'javascript', 'html/css', 'sql', 'bash'] },
-  { name: 'ML & AI', items: ['pytorch', 'tensorflow', 'hugging face transformers', 'llms', 'rag', 'langgraph', 'stable diffusion', 'scikit-learn'] },
-  { name: 'Data', items: ['pandas', 'numpy', 'mysql', 'oracle', 'chromadb', 'sqlite'] },
-  { name: 'Infra & tooling', items: ['git', 'fastapi', 'langchain', 'streamlit', 'boto3 (aws)', 'linux'] },
+  { name: 'Languages', items: ['python', 'c++', 'java', 'c', 'sql', 'typescript/javascript', 'bash'] },
+  { name: 'ML & AI', items: ['pytorch', 'tensorflow', 'hugging face transformers', 'scikit-learn', 'langchain', 'langgraph', 'rag', 'llm evaluation', 'stable diffusion'] },
+  { name: 'Data & MLOps', items: ['pandas', 'numpy', 'weights & biases', 'docker', 'git', 'github actions (ci/cd)', 'fastapi', 'streamlit', 'linux', 'slurm', 'aws (cloudwatch)'] },
+  { name: 'Databases', items: ['mysql', 'sqlite', 'chromadb'] },
 ];
 
 // An item is either a plain string, or an array of parts where an object
