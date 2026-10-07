@@ -531,6 +531,10 @@ main section {
 /* Keep the tag row out from under the sash: on wide cards it already stops
    short of the corner, on narrow ones this makes it wrap sooner. */
 .has-award .tag-row { padding-right: 92px; }
+/* Blurb lines can run right up to the card's edge, which puts their last word
+   against the sash. Extra room under the tags lifts the whole text block away
+   from the corner, whatever the line breaks turn out to be. */
+.has-award { padding-bottom: 38px; }
 
 .corner-clip {
   position: absolute; inset: 0; z-index: 2;
@@ -613,9 +617,6 @@ main section {
   .edu { grid-template-columns: 1fr; gap: 10px; }
   .edu-loc { text-align: left; }
   .project-grid { grid-template-columns: 1fr; }
-  /* Wide single-column cards let blurb lines run right up to the sash, so the
-     card gets a little more room beneath the text instead. */
-  .has-award { padding-bottom: 38px; }
   .post { grid-template-columns: 1fr; gap: 8px; }
   .post-read { text-align: left; }
   main section,
