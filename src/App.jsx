@@ -313,7 +313,7 @@ export default function App() {
           <SectionHead num="04" kicker="projects" title="Things I've" accent="built" />
           <div className="project-grid">
             {projects.map((p) => (
-              <div className="project tilt glass" key={p.num}>
+              <div className={`project tilt glass${p.award ? ' has-award' : ''}`} key={p.num}>
                 <div className="project-meta">
                   <div className="project-num">{p.num}</div>
                   <div className="project-year">{p.year}</div>
@@ -333,6 +333,11 @@ export default function App() {
                 </div>
                 <p>{p.blurb}</p>
                 <Tags items={p.tags} />
+                {p.award ? (
+                  <div className="corner-clip">
+                    <div className="corner-ribbon">{p.award}</div>
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

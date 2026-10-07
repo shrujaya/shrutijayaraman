@@ -120,6 +120,8 @@ export const education = [
   },
 ];
 
+// `award` is the text on the diagonal corner ribbon. It's drawn in mono caps,
+// so write it in lowercase here; keep it short, it only has ~130px of room.
 export const projects = [
   {
     num: '01',
@@ -128,6 +130,7 @@ export const projects = [
     blurb: 'An AI interview platform with a video avatar that asks the questions, adapts difficulty as you answer, and writes the hiring report.',
     tags: ['fastapi', 'react', 'typescript', 'websockets', 'multi-agent'],
     url: 'https://github.com/shrujaya/git-hired',
+    award: 'won cbc hackathon 2025',
   },
   {
     num: '02',
@@ -144,6 +147,15 @@ export const projects = [
     blurb: 'A shared memory layer that lets multiple agents keep what they have learned without overflowing the context window.',
     tags: ['sqlite', 'chromadb', 'agents'],
     url: 'https://github.com/shrujaya/memhub',
+  },
+  {
+    num: '04',
+    year: '2026',
+    title: 'GudTrms',
+    blurb: 'An iMessage mediator for breakups: isolated LLM advocates and a fair‑division engine, behind a protocol gate that allows nothing but a yes or no.',
+    tags: ['typescript', 'claude', 'multi-agent', 'postgres', 'docker'],
+    url: 'https://github.com/shrujaya/gudtrms',
+    award: 'won mhacks 2026',
   },
 ];
 

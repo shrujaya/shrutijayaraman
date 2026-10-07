@@ -506,7 +506,7 @@ main section {
 
 /* ── projects ──────────────────────────────────────────────── */
 .project-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0 0;
 }
 .project {
   display: block; background: var(--glass-a); border-radius: 18px;
@@ -523,6 +523,34 @@ main section {
   transition: color 160ms ease, transform 160ms ease;
 }
 .repo-link:hover { color: var(--accent); transform: translateY(-1px); }
+/* Award sash across a card's bottom-right corner. The clip layer covers the
+   card and trims the band to its rounded edge. The band's centre sits --c in
+   from both the right and bottom edges, so it crosses the corner at 45deg;
+   smaller --c pulls it toward the corner, larger --c pushes it inward. */
+.project { position: relative; }
+/* Keep the tag row out from under the sash: on wide cards it already stops
+   short of the corner, on narrow ones this makes it wrap sooner. */
+.has-award .tag-row { padding-right: 92px; }
+
+.corner-clip {
+  position: absolute; inset: 0; z-index: 2;
+  border-radius: inherit; overflow: hidden; pointer-events: none;
+}
+.corner-ribbon {
+  --c: 45px;
+  --t: 18px;
+  position: absolute;
+  width: 240px; height: var(--t);
+  right: calc(var(--c) - 120px);
+  bottom: calc(var(--c) - var(--t) / 2);
+  transform: rotate(-45deg);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent); color: var(--on-accent);
+  font-family: var(--mono); font-weight: 500; font-size: 7.5px; letter-spacing: 0.06em;
+  text-transform: uppercase; white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(120,32,6,0.35);
+}
+
 .project-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .project-num { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb),0.72); }
 .project-year {
@@ -585,6 +613,9 @@ main section {
   .edu { grid-template-columns: 1fr; gap: 10px; }
   .edu-loc { text-align: left; }
   .project-grid { grid-template-columns: 1fr; }
+  /* Wide single-column cards let blurb lines run right up to the sash, so the
+     card gets a little more room beneath the text instead. */
+  .has-award { padding-bottom: 38px; }
   .post { grid-template-columns: 1fr; gap: 8px; }
   .post-read { text-align: left; }
   main section,
