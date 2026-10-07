@@ -95,7 +95,7 @@ function Tags({ items }) {
 
 export default function App() {
   const sectionIds = useMemo(() => nav.map((n) => n.id), []);
-  const active = useScrollSpy(sectionIds);
+  const { active, pin } = useScrollSpy(sectionIds);
   const resume = useGlitchLabel(RESUME_IDLE);
 
   useCursorGlow();
@@ -136,7 +136,10 @@ export default function App() {
                 type="button"
                 key={item.id}
                 className="nav-link"
-                onClick={() => scrollToSection(item.id)}
+                onClick={() => {
+                  pin(item.id);
+                  scrollToSection(item.id);
+                }}
               >
                 {item.label}
                 {active === item.id ? <span className="nav-underline" /> : null}

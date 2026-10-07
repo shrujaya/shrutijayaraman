@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const prefersReduced = () =>
   window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -126,41 +126,82 @@ export function useReveal() {
   }, []);
 }
 
-/** Tracks the section under the header and drives the progress bar. */
+const SCROLL_KEYS = new Set([
+  'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ',
+]);
+
+/**
+ * Tracks which section is current and drives the progress bar.
+ *
+ * Returns `{ active, pin }`. A section normally becomes active once its top
+ * reaches the activation line just under the header. The last panels are
+ * short enough that the page runs out of room before they get there, so near
+ * the bottom the line slides down the viewport to let them take their turn.
+ *
+ * That still can't separate two panels that both end up on screen at the very
+ * bottom, so clicking a nav item calls `pin(id)`: that item stays active until
+ * the user takes over scrolling themselves.
+ */
 export function useScrollSpy(sectionIds) {
   const [active, setActive] = useState(sectionIds[0]);
   const raf = useRef(null);
+  const pinned = useRef(null);
+
+  const pin = useCallback((id) => {
+    pinned.current = id;
+    setActive(id);
+  }, []);
 
   useEffect(() => {
+    const HEADER_LINE = 140;
+
     const onScroll = () => {
       if (raf.current) return;
       raf.current = requestAnimationFrame(() => {
         raf.current = null;
-        const line = window.scrollY + 140;
-        let current = sectionIds[0];
-        sectionIds.forEach((id) => {
-          const el = document.getElementById(id);
-          if (el && el.getBoundingClientRect().top + window.scrollY <= line) current = id;
-        });
-        setActive(current);
+        const top = window.scrollY;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+
+        if (!pinned.current) {
+          const sweep = window.innerHeight - HEADER_LINE;
+          const t = max > 0 ? Math.min(1, Math.max(0, 1 - (max - top) / sweep)) : 0;
+          const line = top + HEADER_LINE + t * sweep;
+          let current = sectionIds[0];
+          sectionIds.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el && el.getBoundingClientRect().top + top <= line) current = id;
+          });
+          setActive(current);
+        }
 
         const bar = document.getElementById('scroll-progress');
-        if (bar) {
-          const max = document.documentElement.scrollHeight - window.innerHeight;
-          bar.style.width = `${max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0}%`;
-        }
+        if (bar) bar.style.width = `${max > 0 ? Math.min(100, (top / max) * 100) : 0}%`;
       });
     };
+
+    // Any of these means the user is scrolling by hand, so the clicked item
+    // no longer gets to hold the highlight.
+    const release = () => { pinned.current = null; };
+    const onKey = (e) => { if (SCROLL_KEYS.has(e.key)) release(); };
+
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('wheel', release, { passive: true });
+    window.addEventListener('touchstart', release, { passive: true });
+    window.addEventListener('mousedown', release);
+    window.addEventListener('keydown', onKey);
     onScroll();
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('wheel', release);
+      window.removeEventListener('touchstart', release);
+      window.removeEventListener('mousedown', release);
+      window.removeEventListener('keydown', onKey);
       if (raf.current) cancelAnimationFrame(raf.current);
       raf.current = null;
     };
   }, [sectionIds]);
 
-  return active;
+  return { active, pin };
 }
 
 /** Scrambles the résumé button's label between two strings. */
